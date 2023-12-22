@@ -321,3 +321,40 @@ fun Double.round(decimals:Int): Float {
     repeat(decimals) { multiplier *= 10 }
     return (round(this * multiplier) / multiplier).toFloat()
 }
+/**
+ * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner in within a range
+ * @author annacano0
+ * @since 22/12/2023
+ * @param pMessageIn Input message to be shown to the user
+ * @param pMessageErrorDT Data type error message to be shown to the user
+ * @param pMessageErrorDV Data value error message to be shown to the user
+ * @param pMin Min accepted value
+ * @param pMax Max accepted value
+ * @return outputValue Output value
+ */
+fun readStringSiNo(pMessageIn:String, pMessageErrorDT: String
+                    , pMessageErrorDV: String
+):Boolean{
+
+    var inputCorrecte:Boolean=true
+    var inputUsuari=""
+    var outputValue:Boolean=false
+    do {
+        println(pMessageIn)
+        if (scan.hasNextLine()){
+            inputCorrecte=true
+            inputUsuari=scan.nextLine().lowercase()
+            if (inputUsuari!="si"&&inputUsuari!="no"){
+                println(YELLOW_BOLD_BRIGHT + "WARNING: " + pMessageErrorDV + RESET)
+                inputCorrecte=false
+            }
+        }else{
+            scan.nextLine()
+            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            inputCorrecte=false
+        }
+    }while(!inputCorrecte)
+    if (inputUsuari=="si") outputValue=true
+    else outputValue=false
+    return outputValue
+}

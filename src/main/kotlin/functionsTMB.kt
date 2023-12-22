@@ -45,6 +45,14 @@ fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
     return (finalPriceTicket)
 }
 
-fun addUserOptionToTicket(pUserOption:Int, pUserZone:Int, pTicketPrice:Float){
-
+fun addUserOptionToReceipt(pUserOption:Int, pUserZone:Int, pTicketPrice:Float){
+    var listTicketName:MutableList<Int> =mutableListOf()
+    var listTicketZone:MutableList<Int> =mutableListOf()
+    var listTicketPrice:MutableList<Float> =mutableListOf()
+    listTicketName.add(pUserOption)
+    listTicketZone.add(pUserZone)
+    listTicketPrice.add(pTicketPrice)
+    println(listTicketName)
+    println(listTicketZone)
+    println(listTicketPrice)
 }
