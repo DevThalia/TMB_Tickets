@@ -24,16 +24,25 @@ fun zoneMenu():Int{
 }
 
 fun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{
-    var basePrice=calculateBasePriceTicket(pUserOption)
-    var priceFinal=addZonePrice(basePrice, pZone)
+    val basePrice=calculateBasePriceTicket(pUserOption)
+    val priceFinal=addZonePrice(basePrice, pZone)
     return priceFinal
 }
 fun calculateBasePriceTicket(pUserOption:Int):Float{
+    var stilShoppingBoolean=false
     val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)
     val basePriceTicket=(pricesPerOption[pUserOption-1])
     return basePriceTicket
 }
-
+fun stilShooping():Boolean{
+    var stilShopBoolean:Boolean=false
+    val stilShopping=readWord("Vols seguir comprant? (si/no)","Valor introduit no vàlid")
+    if (stilShopping.contentEquals("si")){
+        mainMenuOpcions()
+        stilShopBoolean=true
+    }
+    return stilShopBoolean
+}
 fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
     var finalPriceTicket=pBasePrice
     if (pZone==3){
@@ -46,9 +55,9 @@ fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
 }
 
 fun addUserOptionToReceipt(pUserOption:Int, pUserZone:Int, pTicketPrice:Float){
-    var listTicketName:MutableList<Int> =mutableListOf()
-    var listTicketZone:MutableList<Int> =mutableListOf()
-    var listTicketPrice:MutableList<Float> =mutableListOf()
+    val listTicketName:MutableList<Int> =mutableListOf()
+    val listTicketZone:MutableList<Int> =mutableListOf()
+    val listTicketPrice:MutableList<Float> =mutableListOf()
     listTicketName.add(pUserOption)
     listTicketZone.add(pUserZone)
     listTicketPrice.add(pTicketPrice)

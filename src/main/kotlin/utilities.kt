@@ -24,7 +24,7 @@ fun readWord(pMessageIn: String
         if (!correctDataType){
             println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
         }else{
-            outputValue = scan.next()
+            outputValue = scan.next().lowercase()
         }
         scan.nextLine()
     }while(!correctDataType)
