@@ -34,14 +34,9 @@ fun calculateBasePriceTicket(pUserOption:Int):Float{
     val basePriceTicket=(pricesPerOption[pUserOption-1])
     return basePriceTicket
 }
-fun stilShooping():Boolean{
-    var stilShopBoolean:Boolean=false
-    val stilShopping=readWord("Vols seguir comprant? (si/no)","Valor introduit no vàlid")
-    if (stilShopping.contentEquals("si")){
-        mainMenuOpcions()
-        stilShopBoolean=true
-    }
-    return stilShopBoolean
+fun stillShooping():Boolean{
+    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)","Valor introduit no vàlid", "Valor no es una opció")
+    return stillShopBoolean
 }
 fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
     var finalPriceTicket=pBasePrice
@@ -55,13 +50,25 @@ fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
 }
 
 fun addUserOptionToReceipt(pUserOption:Int, pUserZone:Int, pTicketPrice:Float){
+    //create three dif. mutable lists so that the length of the receipt isn't strict and data stays organized
     val listTicketName:MutableList<Int> =mutableListOf()
     val listTicketZone:MutableList<Int> =mutableListOf()
     val listTicketPrice:MutableList<Float> =mutableListOf()
+
     listTicketName.add(pUserOption)
     listTicketZone.add(pUserZone)
     listTicketPrice.add(pTicketPrice)
-    println(listTicketName)
-    println(listTicketZone)
-    println(listTicketPrice)
+
+}
+
+fun printTicketLists(){
+    ///TODO:funcion al que se le pasaran las listas como parametro y luego imprimira el contenido en formato ticket
+}
+
+fun endOfProgramMessage(){
+    printTicketLists()
+    println("----------------------------")
+    println("    Reculli el seu tiquet.  ")
+    println("        ¡Bon Viatge!        ")
+    println("----------------------------")
 }
