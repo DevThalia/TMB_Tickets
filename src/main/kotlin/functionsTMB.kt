@@ -49,26 +49,44 @@ fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
     return (finalPriceTicket)
 }
 
-fun addUserOptionToReceipt(pUserOption:Int, pUserZone:Int, pTicketPrice:Float){
-    //create three dif. mutable lists so that the length of the receipt isn't strict and data stays organized
-    val listTicketName:MutableList<Int> =mutableListOf()
-    val listTicketZone:MutableList<Int> =mutableListOf()
-    val listTicketPrice:MutableList<Float> =mutableListOf()
+fun addUserOptionToReceipt(pUserOption:Int,
+                           pUserZone:Int,
+                           pUserPrice:Float,
+                           pNames:MutableList<String>,
+                           pZones:MutableList<Int>,
+                           pPrices:MutableList<Float>){
+    val ticketNamesList=arrayOf("Bitllet Senzill", "TCasual", "TUsual", "TFamiliar","TJove")
+    val ticketName=ticketNamesList[pUserOption-1]
 
-    listTicketName.add(pUserOption)
-    listTicketZone.add(pUserZone)
-    listTicketPrice.add(pTicketPrice)
-
+    pNames.add(ticketName)
+    pZones.add(pUserZone)
+    pPrices.add(pUserPrice)
 }
 
-fun printTicketLists(){
-    ///TODO:funcion al que se le pasaran las listas como parametro y luego imprimira el contenido en formato ticket
+fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
+    println("___________TIQUET__________")
+    for (i in 0..pNames.size-1){
+        println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")
+    }
+    println("___________________________")
 }
 
 fun endOfProgramMessage(){
-    printTicketLists()
-    println("----------------------------")
     println("    Reculli el seu tiquet.  ")
     println("        ¡Bon Viatge!        ")
-    println("----------------------------")
+}
+
+fun printAddedTicket(pPrice:Float){
+    println("El preu del bitllet es "+pPrice+"€")
+}
+
+fun payment(pPrices:MutableList<Float>){
+    ///TODO:esat funcion gestionara el pago del billete. Seguramente se deberian crear otras funciones tipo
+    ///change() o algo por el estilo
+    var totalPayment=0.0f
+    for (i in 0..pPrices.size-1){
+        totalPayment+=pPrices[i]
+    }
+    println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
+
 }
