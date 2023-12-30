@@ -39,6 +39,7 @@ fun stillShooping():Boolean{
     return stillShopBoolean
 }
 fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
+    
     var finalPriceTicket=pBasePrice
     if (pZone==3){
         finalPriceTicket=(finalPriceTicket*1.8443).round(2)
