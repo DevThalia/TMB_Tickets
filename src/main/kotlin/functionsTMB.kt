@@ -65,16 +65,15 @@ fun addUserOptionToReceipt(pUserOption:Int,
 }
 
 fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
-    println("___________TIQUET__________")
-    for (i in 0..pNames.size-1){
-        println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")
+    var printTicket=readStringSiNo("Desitja tiquet? (si/no)","Valor introduit no vàlid", "Valor no es una opció")
+    if (printTicket){
+        println("___________TIQUET__________")
+        for (i in 0..pNames.size-1){
+            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")
+        }
+        println("___________________________")
     }
-    println("___________________________")
-}
 
-fun endOfProgramMessage(){
-    println("    Reculli el seu tiquet.  ")
-    println("        ¡Bon Viatge!        ")
 }
 
 fun printAddedTicket(pPrice:Float){
