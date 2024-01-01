@@ -89,5 +89,58 @@ fun payment(pPrices:MutableList<Float>){
         totalPayment+=pPrices[i]
     }
     println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
+}
+fun showMoneyMenu(){
+    println("----------------------------")
+    println("Sel.leccioni amb què vol pagar")
+    println("1 - 50€")
+    println("2 - 20€")
+    println("3 - 10€")
+    println("4 - 5€")
+    println("5 - 2€")
+    println("6 - 1€")
+    println("7 - 0.50€")
+    println("8 - 0.20€")
+    println("9 - 0.10€")
+    println("10 - 0.05€")
+}
 
+fun moneyMenuOptions(listOfMoney: MutableList<Int>):MutableList<Int>{
+    showMoneyMenu()
+    var option: Int
+    do {
+        println("Amb què pagarà (introdueixi 0 per sortir): ")
+        option =readIntMenu( pMin = 1, pMax = 5, "El valor inserit no es valid", "El valor inserit no es una opcio")
+
+        if (option != 0) {
+            listOfMoney.add(option)
+        }
+    } while (option != 0)
+    return listOfMoney
+}
+
+fun priceTransform(listOfMoney:MutableList<Int>):Double{
+    val price=0
+    var sumPrice=0.0
+    for (i in listOfMoney){
+        when (listOfMoney[i]){
+            1 -> price==50
+            2 -> price==20
+            3 -> price==10
+            4 -> price==5
+            5 -> price==2
+            6 -> price==1
+            7 -> price.toDouble() ==0.50
+            8 -> price.toDouble() ==0.20
+            9 -> price.toDouble() ==0.10
+            10 -> price.toDouble() ==0.05
+        }
+        sumPrice+=price
+    }
+    return sumPrice.toDouble()
+}
+
+fun change(sumPrice:Double,totalPayment:Float){
+    val priceReturn=totalPayment-sumPrice
+    println("El seu canvi és de $priceReturn")
 }

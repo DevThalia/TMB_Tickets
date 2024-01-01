@@ -4,6 +4,7 @@ fun main() {
     val ticketNames=mutableListOf<String>()
     val ticketZones=mutableListOf<Int>()
     val ticketPrices=mutableListOf<Float>()
+    val listOfMoney = mutableListOf<Int>()
     do {
         val userOption = mainMenuOpcions()//funcion que muestra el menú principal y devuelve el userOption
         val userZone = zoneMenu()
@@ -15,5 +16,6 @@ fun main() {
     }while (stillShop&&ticketsAdded<3)
     payment(ticketPrices)
     printTicketLists(ticketNames, ticketZones, ticketPrices)
+    moneyMenuOptions(listOfMoney)
     endOfProgramMessage()
 }
