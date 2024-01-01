@@ -1,4 +1,5 @@
 fun main() {
+    AsciiArt()
     var stillShop:Boolean
     var ticketsAdded=0
     val ticketNames=mutableListOf<String>()
