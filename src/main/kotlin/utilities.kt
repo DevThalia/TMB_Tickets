@@ -22,7 +22,7 @@ fun readWord(pMessageIn: String
         correctDataType = scan.hasNext()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.next().lowercase()
         }
@@ -52,7 +52,7 @@ fun readSentence(pMessageIn: String
         correctDataType = scan.hasNext()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextLine()
         }
@@ -81,7 +81,7 @@ fun readChar(pMessageIn: String
         correctDataType = scan.hasNext()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             // Get the first character of the input word from scan.next()
             outputValue = scan.next()[0]
@@ -114,7 +114,7 @@ fun readChar(pMessageIn: String
         correctDataType = scan.hasNext()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = if (pCase == 0) scan.next()[0].lowercaseChar()
             else scan.next()[0].uppercaseChar()
@@ -145,7 +145,7 @@ fun readBoolean(pMessageIn: String
         correctDataType = scan.hasNextBoolean()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextBoolean()
         }
@@ -175,7 +175,7 @@ fun readInt(pMessageIn: String
         correctDataType = scan.hasNextInt()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextInt()
         }
@@ -197,8 +197,6 @@ fun readInt(pMessageIn: String
  * @return outputValue Output value
  */
 fun readIntRange(pMessageIn: String
-                 , pMessageErrorDT: String
-                 , pMessageErrorDV: String
                  , pMin: Int
                  , pMax: Int
 ): Int{
@@ -211,12 +209,12 @@ fun readIntRange(pMessageIn: String
         correctDataType = scan.hasNextInt()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextInt()
 
             if (outputValue < pMin || outputValue > pMax){
-                println(YELLOW_BOLD_BRIGHT + "WARNING: " + pMessageErrorDV + RESET)
+                messageErrorRange()
                 correctDataType = false
             }
         }
@@ -234,7 +232,6 @@ fun readIntRange(pMessageIn: String
  * @return outputValue Output value
  */
 fun readFloat(pMessageIn: String
-              , pMessageErrorDT: String
 ): Float{
 
     var outputValue: Float = 0.0f
@@ -245,7 +242,7 @@ fun readFloat(pMessageIn: String
         correctDataType = scan.hasNextFloat()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextFloat()
         }
@@ -267,8 +264,6 @@ fun readFloat(pMessageIn: String
  * @return outputValue Output value
  */
 fun readFloat(pMessageIn: String
-              , pMessageErrorDT: String
-              , pMessageErrorDV: String
               , pMin: Float
               , pMax: Float
 ): Float{
@@ -281,12 +276,12 @@ fun readFloat(pMessageIn: String
         correctDataType = scan.hasNextFloat()
 
         if (!correctDataType){
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorDT()
         }else{
             outputValue = scan.nextFloat()
 
             if (outputValue < pMin || outputValue > pMax){
-                println(YELLOW_BOLD_BRIGHT + "WARNING: " + pMessageErrorDV + RESET)
+                messageErrorRange()
                 correctDataType = false
             }
         }
@@ -296,7 +291,7 @@ fun readFloat(pMessageIn: String
     return outputValue
 }
 
-fun readIntMenu(pMin:Int,pMax:Int, pMessageErrorDT: String, pMessageErrorDV: String):Int{
+fun readIntMenu(pMin:Int,pMax:Int):Int{
     val scanner= Scanner(System.`in`)
     var inputCorrecte=true
     var inputUsuari=0
@@ -305,11 +300,11 @@ fun readIntMenu(pMin:Int,pMax:Int, pMessageErrorDT: String, pMessageErrorDV: Str
             inputCorrecte=true
             inputUsuari=scanner.nextInt()
             if (inputUsuari<pMin||inputUsuari>pMax) {
-                println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+                messageErrorRange()
                 inputCorrecte=false
             }
         }else{
-            println(YELLOW_BOLD_BRIGHT + "WARNING: " + pMessageErrorDV + RESET)
+            messageErrorDT()
             inputCorrecte=false
         }
         scanner.nextLine()
@@ -323,6 +318,7 @@ fun Double.round(decimals:Int): Float {
 }
 /**
  * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner in within a range
+ * and returns boolean
  * @author annacano0
  * @since 22/12/2023
  * @param pMessageIn Input message to be shown to the user
@@ -330,10 +326,9 @@ fun Double.round(decimals:Int): Float {
  * @param pMessageErrorDV Data value error message to be shown to the user
  * @param pMin Min accepted value
  * @param pMax Max accepted value
- * @return outputValue Output value
+ * @return outputValue Output value (boolean)
  */
-fun readStringSiNo(pMessageIn:String, pMessageErrorDT: String
-                    , pMessageErrorDV: String
+fun readStringSiNo(pMessageIn:String
 ):Boolean{
 
     var inputCorrecte:Boolean=true
@@ -345,12 +340,12 @@ fun readStringSiNo(pMessageIn:String, pMessageErrorDT: String
             inputCorrecte=true
             inputUsuari=scan.nextLine().lowercase()
             if (inputUsuari!="si"&&inputUsuari!="no"){
-                println(YELLOW_BOLD_BRIGHT + "WARNING: " + pMessageErrorDV + RESET)
+                messageErrorDT()
                 inputCorrecte=false
             }
         }else{
             scan.nextLine()
-            println(RED_BACKGROUND_BRIGHT + "ERROR: " + pMessageErrorDT + RESET)
+            messageErrorRange()
             inputCorrecte=false
         }
     }while(!inputCorrecte)
