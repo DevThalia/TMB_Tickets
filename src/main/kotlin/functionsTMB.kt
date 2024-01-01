@@ -12,14 +12,13 @@ fun mainMenuOpcions():Int{
     var userOption=0
     do{
         showMenu()
-        userOption=readIntMenu( pMin = 1, pMax = 5, "El valor inserit no es valid", "El valor inserit no es una opcio")
+        userOption=readIntMenu( pMin = 1, pMax = 5)
     }while (userOption!in 1..5)
     return userOption
 }
 fun zoneMenu():Int{
     println("A quina zona vol viatjar?\n1\n2\n3")
-    val userZoneInput=readIntMenu(1, 3,"El valor inserit no es valid",
-        "El valor no es una opció de Zona",)
+    val userZoneInput=readIntMenu(1, 3)
     return userZoneInput
 }
 
@@ -35,7 +34,7 @@ fun calculateBasePriceTicket(pUserOption:Int):Float{
     return basePriceTicket
 }
 fun stillShooping():Boolean{
-    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)","Valor introduit no vàlid", "Valor no es una opció")
+    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)")
     return stillShopBoolean
 }
 fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
@@ -58,18 +57,18 @@ fun addUserOptionToReceipt(pUserOption:Int,
                            pPrices:MutableList<Float>){
     val ticketNamesList=arrayOf("Bitllet Senzill", "TCasual", "TUsual", "TFamiliar","TJove")
     val ticketName=ticketNamesList[pUserOption-1]
-
+    //we add the user ticket to the mutable lists
     pNames.add(ticketName)
     pZones.add(pUserZone)
     pPrices.add(pUserPrice)
 }
 
 fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
-    var printTicket=readStringSiNo("Desitja tiquet? (si/no)","Valor introduit no vàlid", "Valor no es una opció")
+    var printTicket=readStringSiNo("Desitja tiquet? (si/no)")
     if (printTicket){
         println("___________TIQUET__________")
         for (i in 0..pNames.size-1){
-            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")
+            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")//printa todos los tiquets añadidos a las listas mutables
         }
         println("___________________________")
     }
