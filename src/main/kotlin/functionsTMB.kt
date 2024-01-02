@@ -1,4 +1,3 @@
-
 /**
  *function that asks user for their option, prints options, validates data and returns the option
  * @author Thalia2603
@@ -17,7 +16,7 @@ fun mainMenuOpcions():Int{
 }
 /**
  *This method asks user zone, prints zone, validates input and returns zone
- * @author annacano0
+ * @author Thalia2603, annacano0
  * @since 04/01/2024
  * @return userZoneInput value of the zone user chooses
  */
@@ -26,8 +25,8 @@ fun zoneMenu():Int{
     return userZoneInput
 }
 /**
- *This method adds the zone price increment to the base price of ticket, and returns the final sum of ticket
- * @author annacano0
+ *This method gets the base price of ticket, adds the zone price increment to the base price , and returns the final sum of ticket
+ * @author Thalia2603, annacano0
  * @since 04/01/2024
  * @param pUserOption value of ticket option
  * @param pZone value of the zone
@@ -39,35 +38,59 @@ fun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{
     return priceFinal
 }
 /**
- *This method adds the zone price increment to the base price of ticket, and returns the final sum of ticket
- * @author annacano0
+ *This method gets the base price of the ticket chosen by user from an array that contains all prices
+ * @author Thalia2603, annacano0
  * @since 04/01/2024
  * @param pUserOption value of ticket option
- * @param pZone value of the zone
- * @return priceFinal final price of ticket (with decimals)
+ * @return basePriceTicket base price of ticket
  */
 fun getBasePriceTicket(pUserOption:Int):Float{
     var stilShoppingBoolean=false
     val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)
-    val basePriceTicket=(pricesPerOption[pUserOption-1])
+    val basePriceTicket=(pricesPerOption[pUserOption-1])//this makes pUserOption match teh index of ticket in pricesPerOption
     return basePriceTicket
 }
+/**
+*This method asks the user if they want to continue shopping (si/no) and returns boolean
+* @author Thalia2603, annacano0
+* @since 04/01/2024
+* @return stillShopBoolean true/false
+*/
 fun stillShooping():Boolean{
     var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)")
     return stillShopBoolean
 }
+/**
+ *This adds zone supplement to the base price of ticket and returns final price
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param pBasePrice base price of ticket
+ * @param pZone zone chosen by user
+ * @return finalPriceTicket final sum of price for ticket
+ */
 fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
     
-    var finalPriceTicket=pBasePrice
+    var finalPriceTicket=pBasePrice//initial price doesn't change if zone==1
     if (pZone==3){
-        finalPriceTicket=(finalPriceTicket*1.8443).round(2)
+        finalPriceTicket=(finalPriceTicket*1.8443).round(2)//if zone is 3, the price is multiplied by 1.8443 to get total
     }
     else if (pZone==2){
-        finalPriceTicket=(finalPriceTicket*1.3125).round(2)
+        finalPriceTicket=(finalPriceTicket*1.3125).round(2)//if zone is 2, the price is multiplied by 1.3125 to get total
     }
     return (finalPriceTicket)
 }
-
+/**
+ *This method adds the ticket options chosen by user to three mutable lists, organized by ticket names, ticket zones, ticket prices.
+ * This will make the data more manageable
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param pUserOption value of ticket chosen (later transformed to name)
+ * @param pUserZone value of ticket zone
+ * @param pUserPrice value of ticket price
+ * @param pNames MutableList with all ticket names
+ * @param pZones MutableList with all ticket zones
+ * @param pPrices MutableList with all ticket prices
+ */
 fun addUserOptionToReceipt(pUserOption:Int,
                            pUserZone:Int,
                            pUserPrice:Float,
@@ -81,7 +104,14 @@ fun addUserOptionToReceipt(pUserOption:Int,
     pZones.add(pUserZone)
     pPrices.add(pUserPrice)
 }
-
+/**
+ *This method gets all the options added by user to the three ticket lists and prints them with the format of a receipt (message)
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param pNames MutableList with all ticket names
+ * @param pZones MutableList with all ticket zones
+ * @param pPrices MutableList with all ticket prices
+ */
 fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
     var printTicket=readStringSiNo("Desitja tiquet? (si/no)")
     if (printTicket){
@@ -93,19 +123,23 @@ fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrice
     }
 
 }
-
+/**
+ *This method prints message with the price of the added ticket
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param pPrice price of added (current) ticket
+ */
 fun printAddedTicket(pPrice:Float){
     println("El preu del bitllet es "+pPrice+"€")
 }
 
 fun payment(pPrices:MutableList<Float>){
-    ///TODO:esat funcion gestionara el pago del billete. Seguramente se deberian crear otras funciones tipo
-    ///change() o algo por el estilo
     var totalPayment=0.0f
     for (i in 0..pPrices.size-1){
         totalPayment+=pPrices[i]
     }
     println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
+
 }
 fun showMoneyMenu(){
     println("----------------------------")
