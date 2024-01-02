@@ -1,3 +1,6 @@
+import kotlin.math.absoluteValue
+import kotlin.math.round
+
 /**
  *function that asks user for their option, prints options, validates data and returns the option
  * @author Thalia2603
@@ -134,64 +137,28 @@ fun printAddedTicket(pPrice:Float){
 }
 
 fun payment(pPrices:MutableList<Float>){
-    var totalPayment=0.0f
+    var totalPayment=0.00f
     for (i in 0..pPrices.size-1){
         totalPayment+=pPrices[i]
     }
     println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
-
-}
-fun showMoneyMenu(){
-    println("----------------------------")
-    println("Sel.leccioni amb què vol pagar")
-    println("1 - 50€")
-    println("2 - 20€")
-    println("3 - 10€")
-    println("4 - 5€")
-    println("5 - 2€")
-    println("6 - 1€")
-    println("7 - 0.50€")
-    println("8 - 0.20€")
-    println("9 - 0.10€")
-    println("10 - 0.05€")
-}
-
-fun moneyMenuOptions(listOfMoney: MutableList<Int>):MutableList<Int>{
-    showMoneyMenu()
-    var option: Int
+    println("Introdueixi bitllets o monedes valids d'EURO")
     do {
-        println()
-        option =readIntMenu("Amb què pagarà (introdueixi 0 per sortir): ", 1,5)
-
-        if (option != 0) {
-            listOfMoney.add(option)
+        var userMoney=checkMoney()
+        totalPayment-=userMoney
+        if (totalPayment>0){
+            println("Ha introduit "+userMoney+"€ li resta per pagar "+(round(totalPayment.absoluteValue*100)/100)+"€")
         }
-    } while (option != 0)
-    return listOfMoney
+
+    }while (totalPayment>0)
+    if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(round(totalPayment.absoluteValue*100)/100)+"€")
 }
 
-fun priceTransform(listOfMoney:MutableList<Int>):Double{
-    val price=0
-    var sumPrice=0.0
-    for (i in listOfMoney){
-        when (listOfMoney[i]){
-            1 -> price==50
-            2 -> price==20
-            3 -> price==10
-            4 -> price==5
-            5 -> price==2
-            6 -> price==1
-            7 -> price.toDouble() ==0.50
-            8 -> price.toDouble() ==0.20
-            9 -> price.toDouble() ==0.10
-            10 -> price.toDouble() ==0.05
-        }
-        sumPrice+=price
+fun checkMoney():Float{
+    var money=0.0f
+    money=readFloat()
+    if (money!=50f&&money!=20f&&money!=10f&&money!=5f&&money!=2f &&money!=1f&&money!=0.5f&&money!=0.2f&&money!=0.1f&&money!=0.05f&&money!=0.02f&&money!=0.01f){
+        money=0.00f
     }
-    return sumPrice.toDouble()
-}
-
-fun change(sumPrice:Double,totalPayment:Float){
-    val priceReturn=totalPayment-sumPrice
-    println("El seu canvi és de $priceReturn")
+    return money
 }

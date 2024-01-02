@@ -291,6 +291,25 @@ fun readFloat(pMessageIn: String
     return outputValue
 }
 
+fun readFloat(): Float{
+
+    var outputValue: Float = 0.0f
+    var correctDataType: Boolean = false
+
+    do{
+        correctDataType = scan.hasNextFloat()
+
+        if (!correctDataType){
+            messageErrorDT()
+        }else{
+            outputValue = scan.nextFloat()
+        }
+        scan.nextLine()
+    }while(!correctDataType)
+
+    return outputValue
+}
+
 fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
     println(pMessageIn)
     val scanner= Scanner(System.`in`)
