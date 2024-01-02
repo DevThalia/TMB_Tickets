@@ -1,5 +1,4 @@
 import kotlin.math.absoluteValue
-import kotlin.math.round
 
 /**
  *function that asks user for their option, prints options, validates data and returns the option
@@ -136,6 +135,13 @@ fun printAddedTicket(pPrice:Float){
     println("El preu del bitllet es "+pPrice+"€")
 }
 
+/**
+ *This function manages the payment of the tickets, first counting the total,
+ *then asking user for valid input of money, and doing so until payment is finished and "returning" the change.
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param pPrices list of all the ticket prices
+ */
 fun payment(pPrices:MutableList<Float>){
     var totalPayment=0.00f
     for (i in 0..pPrices.size-1){
@@ -145,15 +151,22 @@ fun payment(pPrices:MutableList<Float>){
     println("Introdueixi bitllets o monedes valids d'EURO")
     do {
         var userMoney=checkMoney()
-        totalPayment-=userMoney
+        totalPayment-=userMoney//money inserted is substracted from totalPayment
         if (totalPayment>0){
+            ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
             println("Ha introduit "+userMoney+"€ li resta per pagar "+(totalPayment.toDouble().round(2))+"€")
         }
 
     }while (totalPayment>0)
+    ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
     if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(totalPayment.toDouble().round(2).absoluteValue)+"€")
 }
-
+/**
+ *This method validates the input (via readFloat) of money from user. if input is not a valid curency it returns 0.
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @return money value of valid money
+ */
 fun checkMoney():Float{
     var money=0.0f
     money=readFloat()
