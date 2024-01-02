@@ -4,6 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+    <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="removed parameters of incorrect data type and incorrect range from to functions">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="added function stilShooping on Main.kt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
@@ -107,6 +109,55 @@
       <option name="project" value="LOCAL" />
       <updated>1703424338674</updated>
     </task>
+    <task id="LOCAL-00004" summary="added Messages.kt (reorganized text functions) and added ascii art">
+      <option name="closed" value="true" />
+      <created>1704123800203</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704123800203</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added AsciiArt()">
+      <option name="closed" value="true" />
+      <created>1704123825122</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704123825122</updated>
+    </task>
+    <task id="LOCAL-00006" summary="moved text functions to Messages.kt">
+      <option name="closed" value="true" />
+      <created>1704123855135</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704123855135</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added fun messageErrorDT and messageErrorRange to all utilities.kt functions">
+      <option name="closed" value="true" />
+      <created>1704124894021</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704124894021</updated>
+    </task>
+    <task id="LOCAL-00008" summary="created fun messageErrorDT() and messageErrorRange()">
+      <option name="closed" value="true" />
+      <created>1704124926093</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704124926093</updated>
+    </task>
+    <task id="LOCAL-00009" summary="removed parameters of incorrect data type and incorrect range from to functions">
+      <option name="closed" value="true" />
+      <created>1704124998481</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1704124998481</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <task id="LOCAL-00004" summary="added function stilShooping on Main.kt">
       <option name="closed" value="true" />
       <created>1703959564145</created>
@@ -121,6 +172,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="added function stilShooping on Main.kt" />
-    <option name="LAST_COMMIT_MESSAGE" value="added function stilShooping on Main.kt" />
+    <MESSAGE value="added Messages.kt (reorganized text functions) and added ascii art" />
+    <MESSAGE value="added AsciiArt()" />
+    <MESSAGE value="moved text functions to Messages.kt" />
+    <MESSAGE value="added fun messageErrorDT and messageErrorRange to all utilities.kt functions" />
+    <MESSAGE value="created fun messageErrorDT() and messageErrorRange()" />
+    <MESSAGE value="removed parameters of incorrect data type and incorrect range from to functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed parameters of incorrect data type and incorrect range from to functions" />
   </component>
 </project>

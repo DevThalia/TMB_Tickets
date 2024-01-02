@@ -1,33 +1,52 @@
-fun showMenu(){
-    println("----------------------------")
-    println("Quin bitllet desitza adquirir?")
-    println("1 - Bitllet senzill")
-    println("2 - TCasual")
-    println("3 - TUsual")
-    println("4 - TFamiliar")
-    println("5 - TJove")
-}
-/*function that reads USEROPTION and according to the value redirect to another function*/
+
+/**
+ *function that asks user for their option, prints options, validates data and returns the option
+ * @author Thalia2603
+ * @since 04/01/2024
+ * @return userOption value of option
+ */
 fun mainMenuOpcions():Int{
-    var userOption=0
-    do{
-        showMenu()
-        userOption=readIntMenu( pMin = 1, pMax = 5)
-    }while (userOption!in 1..5)
+    var userOption=readIntMenu( "Quin bitllet desitja adquirir?" +
+            "\n1 - Bitllet senzill" +
+            "\n2 - TCasual" +
+            "\n3 - TUsual" +
+            "\n4 - TFamiliar" +
+            "\n5 - TJove",
+        pMin = 1, pMax = 5)
     return userOption
 }
+/**
+ *This method asks user zone, prints zone, validates input and returns zone
+ * @author annacano0
+ * @since 04/01/2024
+ * @return userZoneInput value of the zone user chooses
+ */
 fun zoneMenu():Int{
-    println("A quina zona vol viatjar?\n1\n2\n3")
-    val userZoneInput=readIntMenu(1, 3)
+    val userZoneInput=readIntMenu("A quina zona vol viatjar?\n1\n2\n3",1, 3)
     return userZoneInput
 }
-
+/**
+ *This method adds the zone price increment to the base price of ticket, and returns the final sum of ticket
+ * @author annacano0
+ * @since 04/01/2024
+ * @param pUserOption value of ticket option
+ * @param pZone value of the zone
+ * @return priceFinal final price of ticket (with decimals)
+ */
 fun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{
-    val basePrice=calculateBasePriceTicket(pUserOption)
+    val basePrice=getBasePriceTicket(pUserOption)
     val priceFinal=addZonePrice(basePrice, pZone)
     return priceFinal
 }
-fun calculateBasePriceTicket(pUserOption:Int):Float{
+/**
+ *This method adds the zone price increment to the base price of ticket, and returns the final sum of ticket
+ * @author annacano0
+ * @since 04/01/2024
+ * @param pUserOption value of ticket option
+ * @param pZone value of the zone
+ * @return priceFinal final price of ticket (with decimals)
+ */
+fun getBasePriceTicket(pUserOption:Int):Float{
     var stilShoppingBoolean=false
     val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)
     val basePriceTicket=(pricesPerOption[pUserOption-1])
@@ -107,8 +126,8 @@ fun moneyMenuOptions(listOfMoney: MutableList<Int>):MutableList<Int>{
     showMoneyMenu()
     var option: Int
     do {
-        println("Amb què pagarà (introdueixi 0 per sortir): ")
-        option =readIntMenu( pMin = 1, pMax = 5, "El valor inserit no es valid", "El valor inserit no es una opcio")
+        println()
+        option =readIntMenu("Amb què pagarà (introdueixi 0 per sortir): ", 1,5)
 
         if (option != 0) {
             listOfMoney.add(option)

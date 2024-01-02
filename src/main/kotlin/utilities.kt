@@ -291,7 +291,8 @@ fun readFloat(pMessageIn: String
     return outputValue
 }
 
-fun readIntMenu(pMin:Int,pMax:Int):Int{
+fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
+    println(pMessageIn)
     val scanner= Scanner(System.`in`)
     var inputCorrecte=true
     var inputUsuari=0
