@@ -21,10 +21,14 @@ fun AsciiArt(){
             print(RESET)
 }
 
-
+fun startOfProgramMessage(){
+    AsciiArt()
+    println(BLUE_BOLD_BRIGHT+"----------------------------")
+    println("       ¡Benvolgut/da        ")
+    println("----------------------------"+RESET)
+}
 fun endOfProgramMessage(){
-    println("    Reculli el seu tiquet.  ")
-    println("        ¡Bon Viatge!        ")
+    println(BLUE_BOLD_BRIGHT+"        ¡Bon Viatge!        "+RESET)
 }
 
 fun messageErrorDT(){

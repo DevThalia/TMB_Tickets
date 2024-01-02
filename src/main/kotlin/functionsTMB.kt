@@ -147,11 +147,11 @@ fun payment(pPrices:MutableList<Float>){
         var userMoney=checkMoney()
         totalPayment-=userMoney
         if (totalPayment>0){
-            println("Ha introduit "+userMoney+"€ li resta per pagar "+(round(totalPayment.absoluteValue*100)/100)+"€")
+            println("Ha introduit "+userMoney+"€ li resta per pagar "+(totalPayment.toDouble().round(2))+"€")
         }
 
     }while (totalPayment>0)
-    if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(round(totalPayment.absoluteValue*100)/100)+"€")
+    if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(totalPayment.toDouble().round(2).absoluteValue)+"€")
 }
 
 fun checkMoney():Float{
