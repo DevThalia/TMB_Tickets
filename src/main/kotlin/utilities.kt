@@ -130,11 +130,9 @@ fun readChar(pMessageIn: String
  * @author raimon.izard
  * @since 15/12/2023
  * @param pMessageIn Input message to be shown to the user
- * @param pMessageErrorDT Data type error message to be shown to the user
  * @return outputValue Output value
  */
 fun readBoolean(pMessageIn: String
-                , pMessageErrorDT: String
 ): Boolean{
 
     var outputValue: Boolean = false
@@ -160,11 +158,9 @@ fun readBoolean(pMessageIn: String
  * @author raimon.izard
  * @since 15/12/2023
  * @param pMessageIn Input message to be shown to the user
- * @param pMessageErrorDT Data type error message to be shown to the user
  * @return outputValue Output value
  */
 fun readInt(pMessageIn: String
-            , pMessageErrorDT: String
 ): Int{
 
     var outputValue: Int = 0
@@ -190,8 +186,6 @@ fun readInt(pMessageIn: String
  * @author raimon.izard
  * @since 15/12/2023
  * @param pMessageIn Input message to be shown to the user
- * @param pMessageErrorDT Data type error message to be shown to the user
- * @param pMessageErrorDV Data value error message to be shown to the user
  * @param pMin Min accepted value
  * @param pMax Max accepted value
  * @return outputValue Output value
@@ -257,8 +251,6 @@ fun readFloat(pMessageIn: String
  * @author raimon.izard
  * @since 15/12/2023
  * @param pMessageIn Input message to be shown to the user
- * @param pMessageErrorDT Data type error message to be shown to the user
- * @param pMessageErrorDV Data value error message to be shown to the user
  * @param pMin Min accepted value
  * @param pMax Max accepted value
  * @return outputValue Output value
@@ -291,6 +283,12 @@ fun readFloat(pMessageIn: String
     return outputValue
 }
 
+/**
+ * This method can be used to read a Float value from the user through keyboard using java.util.Scanner
+ * @author Thalia2603 anna.cano0
+ * @since 04/01/2024
+ * @return outputValue Output value
+ */
 fun readFloat(): Float{
 
     var outputValue: Float = 0.0f
@@ -310,6 +308,15 @@ fun readFloat(): Float{
     return outputValue
 }
 
+/**
+ * This method can be used to read a Int value from the user through keyboard using java.util.Scanner in within a range
+ * @author Thalia2603 anna.cano0
+ * @since 04/01/2024
+ * @param pMessageIn Input message to be shown to the user
+ * @param pMin Min accepted value
+ * @param pMax Max accepted value
+ * @return inputUsuari Output value
+ */
 fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
     println(pMessageIn)
     val scanner= Scanner(System.`in`)
@@ -331,19 +338,25 @@ fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
     }while(!inputCorrecte)
     return inputUsuari
 }
+
+/**
+ * This method can be used to round a Double "x" decimals and returns Float
+ * @author anna.cano0
+ * @since 23/12/2023
+ * @return inputUsuari Output value
+ */
 fun Double.round(decimals:Int): Float {
     var multiplier = 1.0
     repeat(decimals) { multiplier *= 10 }
     return (round(this * multiplier) / multiplier).toFloat()
 }
+
 /**
- * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner in within a range
+ * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner
  * and returns boolean
  * @author annacano0
  * @since 22/12/2023
  * @param pMessageIn Input message to be shown to the user
- * @param pMessageErrorDT Data type error message to be shown to the user
- * @param pMessageErrorDV Data value error message to be shown to the user
  * @param pMin Min accepted value
  * @param pMax Max accepted value
  * @return outputValue Output value (boolean)

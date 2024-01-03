@@ -6,8 +6,8 @@ import kotlin.math.absoluteValue
  * @since 04/01/2024
  * @return userOption value of option
  */
-fun mainMenuOpcions():Int{
-    var userOption=readIntMenu( "Quin bitllet desitja adquirir?" +
+fun optionMenu():Int{
+    var userOption=readIntMenu( BLUE_BOLD_BRIGHT+"Quin bitllet desitja adquirir?"+RESET +
             "\n1 - Bitllet senzill" +
             "\n2 - TCasual" +
             "\n3 - TUsual" +
@@ -17,13 +17,13 @@ fun mainMenuOpcions():Int{
     return userOption
 }
 /**
- *This method asks user zone, prints zone, validates input and returns zone
+ *This method prints menu of zones, validates user input and returns user's chosen zone
  * @author Thalia2603, annacano0
  * @since 04/01/2024
  * @return userZoneInput value of the zone user chooses
  */
 fun zoneMenu():Int{
-    val userZoneInput=readIntMenu("A quina zona vol viatjar?\n1\n2\n3",1, 3)
+    val userZoneInput=readIntMenu(BLUE_BOLD_BRIGHT+"A quina zona vol viatjar?"+RESET+"\n1\n2\n3",1, 3)
     return userZoneInput
 }
 /**
@@ -49,7 +49,7 @@ fun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{
 fun getBasePriceTicket(pUserOption:Int):Float{
     var stilShoppingBoolean=false
     val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)
-    val basePriceTicket=(pricesPerOption[pUserOption-1])//this makes pUserOption match teh index of ticket in pricesPerOption
+    val basePriceTicket=(pricesPerOption[pUserOption-1])//this makes pUserOption match the index of ticket in pricesPerOption, so we get the base price from array
     return basePriceTicket
 }
 /**
@@ -59,7 +59,7 @@ fun getBasePriceTicket(pUserOption:Int):Float{
 * @return stillShopBoolean true/false
 */
 fun stillShooping():Boolean{
-    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)")
+    var stillShopBoolean=readStringSiNo(BLUE_BOLD_BRIGHT+"Vol continuar comprant?"+RESET+" (Si/No)")
     return stillShopBoolean
 }
 /**
@@ -99,8 +99,8 @@ fun addUserOptionToReceipt(pUserOption:Int,
                            pNames:MutableList<String>,
                            pZones:MutableList<Int>,
                            pPrices:MutableList<Float>){
-    val ticketNamesList=arrayOf("Bitllet Senzill", "TCasual", "TUsual", "TFamiliar","TJove")
-    val ticketName=ticketNamesList[pUserOption-1]
+    val ticketNamesList=arrayOf("Bitllet Senzill", "TCasual", "TUsual", "TFamiliar","TJove")//array of names for options of ticket, ordered same as in menu
+    val ticketName=ticketNamesList[pUserOption-1]//we get the ticket name from the array using index
     //we add the user ticket to the mutable lists
     pNames.add(ticketName)
     pZones.add(pUserZone)
@@ -115,16 +115,16 @@ fun addUserOptionToReceipt(pUserOption:Int,
  * @param pPrices MutableList with all ticket prices
  */
 fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
-    var printTicket=readStringSiNo("Desitja tiquet? (si/no)")
+    var printTicket=readStringSiNo(BLUE_BOLD_BRIGHT+"Desitja tiquet?"+RESET+" (Si/No)")//ask user if the want ticket and validate input to return Boolean
     if (printTicket){
-        println("___________TIQUET__________")
+        println(BLUE_BRIGHT+"___________TIQUET__________")
         for (i in 0..pNames.size-1){
-            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")//printa todos los tiquets añadidos a las listas mutables
+            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")//prints all added tickets with their respective zone and price (receipt format)
         }
-        println("___________________________")
+        println("___________________________"+RESET)
     }
-
 }
+
 /**
  *This method prints message with the price of the added ticket
  * @author Thalia2603, annacano0
@@ -132,40 +132,55 @@ fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrice
  * @param pPrice price of added (current) ticket
  */
 fun printAddedTicket(pPrice:Float){
-    println("El preu del bitllet es "+pPrice+"€")
+    println("El preu del bitllet és "+pPrice+"€")
 }
 
 /**
- *This function manages the payment of the tickets, first counting the total,
- *then asking user for valid input of money, and doing so until payment is finished and "returning" the change.
+ *This function manages the payment of the tickets, first counts the total,then asks user to confirm purchase, and if purchase=true, then
+ *asks user for valid input of money, and does so until payment is finished and "returns" the change.
  * @author Thalia2603, annacano0
  * @since 04/01/2024
  * @param pPrices list of all the ticket prices
+ * @return confirmPurchase returns if user has confirmed or cancelled purchase
  */
-fun payment(pPrices:MutableList<Float>){
+fun payment(pPrices:MutableList<Float>):Boolean{
+    var totalPayment=totalPrices(pPrices)//sums total of prices
+    var confirmPurchase=readStringSiNo(BLUE_BOLD_BRIGHT+"Confirma la seva compra?"+RESET+" (Si/No)")//option that allows user to cancel purchase, returns true/false
+    if (confirmPurchase){
+        println("Introdueixi bitllets o monedes vàlids d'EURO")
+        do {
+            var userMoney=checkMoney()//money is cheked to see if the value inserted by user exixts. if it doesn't userMoney==0f
+            totalPayment-=userMoney//money inserted is substracted from totalPayment
+            if (totalPayment>0){//if payment is not completed it will ask user to keep inserting money
+                ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
+                println("Ha introduït  "+userMoney+"€ li resta per pagar "+(totalPayment.toDouble().round(2))+"€")
+            }
+        }while (totalPayment>0)
+        ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
+        if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(totalPayment.toDouble().round(2).absoluteValue)+"€")//returns the change (extra money inserted that reflects as negative value in totalPayment)
+    }
+    return confirmPurchase
+}
+/**
+ *This sums all the prices of ticket, prints message informing user of num of tickets and final amount and returns final amount to pay
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @param list of all the ticket prices
+ * @return totalPayment sum of all ticket prices
+ */
+fun totalPrices(pPrices:MutableList<Float>):Float{
     var totalPayment=0.00f
     for (i in 0..pPrices.size-1){
         totalPayment+=pPrices[i]
     }
-    println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
-    println("Introdueixi bitllets o monedes valids d'EURO")
-    do {
-        var userMoney=checkMoney()
-        totalPayment-=userMoney//money inserted is substracted from totalPayment
-        if (totalPayment>0){
-            ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
-            println("Ha introduit "+userMoney+"€ li resta per pagar "+(totalPayment.toDouble().round(2))+"€")
-        }
-
-    }while (totalPayment>0)
-    ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
-    if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(totalPayment.toDouble().round(2).absoluteValue)+"€")
+    println("Ha comprat "+pPrices.size+" bitllet/s, ha de pagar "+(totalPayment.toDouble().round(2))+"€")//we round the sum to two decimals
+    return totalPayment
 }
 /**
- *This method validates the input (via readFloat) of money from user. if input is not a valid curency it returns 0.
+ *This method validates the input (via readFloat) of money from user.then checks if input exists, if input is not a valid curency it returns 0.
  * @author Thalia2603, annacano0
  * @since 04/01/2024
- * @return money value of valid money
+ * @return money Value of valid money
  */
 fun checkMoney():Float{
     var money=0.0f

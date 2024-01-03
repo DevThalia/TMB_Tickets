@@ -1,25 +1,24 @@
 fun main() {
-    ///TODO: hacer que el programa sea un bucle infinito y (opcional) que se pare si un operario introduce: 4321
+    ///TODO: program is infinite until secret code (4321) is typed
     var secretCode=false
     do {
         startOfProgramMessage()
-        var stillShop:Boolean
-        var ticketsAdded=0
-        val ticketNames=mutableListOf<String>()
-        val ticketZones=mutableListOf<Int>()
-        val ticketPrices=mutableListOf<Float>()
+        var stillShop:Boolean=false
+        var ticketsAdded=0//counts num of tickets being added
+        val ticketNames=mutableListOf<String>()//saves added ticket names
+        val ticketZones=mutableListOf<Int>()//saves added ticket zones
+        val ticketPrices=mutableListOf<Float>()//saves added ticket prices
         do {
-            val userOption = mainMenuOpcions()//funcion que muestra el menú principal y devuelve el userOption
-            val userZone = zoneMenu()
+            val userOption = optionMenu()//function that prints menu of ticket options and returns value for ticket chosen by user
+            val userZone = zoneMenu()//function that prints menu of zone options and returns zone chosen by user
             val priceTicket = calculatePricePerTicket(userOption, userZone)
-            ticketsAdded++//counts tickets so that the limit for purchase is 3
+            ticketsAdded++//adds ticket
             printAddedTicket(priceTicket)
-            addUserOptionToReceipt(userOption,userZone,priceTicket, ticketNames, ticketZones, ticketPrices)
-            stillShop=stillShooping()
-        }while (stillShop&&ticketsAdded<3)
-        payment(ticketPrices)
-        printTicketLists(ticketNames, ticketZones, ticketPrices)
+            addUserOptionToReceipt(userOption,userZone,priceTicket, ticketNames, ticketZones, ticketPrices)//adds values to their respective lists
+            if (ticketsAdded!=3) stillShop=stillShooping()//if user hasn't reached limit of tickets, asks user if they want to continue shopping
+        }while (stillShop&&ticketsAdded<3)//if user wants to continue shopping and tickets is less than 3, it will iterate
+        var printTicket=payment(ticketPrices)//if user confirms purchase in payment(), then final receipt is printed
+        if (printTicket) printTicketLists(ticketNames, ticketZones, ticketPrices)
         endOfProgramMessage()
     }while (!secretCode)
-
 }
