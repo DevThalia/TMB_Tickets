@@ -289,24 +289,37 @@ fun readFloat(pMessageIn: String
  * @since 04/01/2024
  * @return outputValue Output value
  */
-fun readFloat(): Float{
-
+/**
+ * This method can be used to read a Float value from the user through keyboard using java.util.Scanner
+ * If the user enters 4321, the program execution will terminate.
+ * @author Thalia2603, annacano0
+ * @since 04/01/2024
+ * @return outputValue Output value
+ */
+fun readFloat(): Float {
     var outputValue: Float = 0.0f
     var correctDataType: Boolean = false
 
-    do{
+    do {
         correctDataType = scan.hasNextFloat()
 
-        if (!correctDataType){
+        if (!correctDataType) {
             messageErrorDT()
-        }else{
+        } else {
             outputValue = scan.nextFloat()
+
+            // Check if the user entered 4321, and terminate the program if true
+            if (outputValue == 4321.0f) {
+                messageExitProgram()
+                System.exit(0)
+            }
         }
         scan.nextLine()
-    }while(!correctDataType)
+    } while (!correctDataType)
 
     return outputValue
 }
+
 
 /**
  * This method can be used to read a Int value from the user through keyboard using java.util.Scanner in within a range
@@ -317,27 +330,32 @@ fun readFloat(): Float{
  * @param pMax Max accepted value
  * @return inputUsuari Output value
  */
-fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
+fun readIntMenu(pMessageIn: String, pMin: Int, pMax: Int): Int {
     println(pMessageIn)
-    val scanner= Scanner(System.`in`)
-    var inputCorrecte=true
-    var inputUsuari=0
+    val scanner = Scanner(System.`in`)
+    var inputCorrecte = true
+    var inputUsuari = 0
     do {
-        if (scanner.hasNextInt()){
-            inputCorrecte=true
-            inputUsuari=scanner.nextInt()
-            if (inputUsuari<pMin||inputUsuari>pMax) {
+        if (scanner.hasNextInt()) {
+            inputCorrecte = true
+            inputUsuari = scanner.nextInt()
+            if (inputUsuari == 4321) {
+                messageExitProgram()
+                // Finalizar la ejecución del programa
+                System.exit(0)
+            } else if (inputUsuari < pMin || inputUsuari > pMax) {
                 messageErrorRange()
-                inputCorrecte=false
+                inputCorrecte = false
             }
-        }else{
+        } else {
             messageErrorDT()
-            inputCorrecte=false
+            inputCorrecte = false
         }
         scanner.nextLine()
-    }while(!inputCorrecte)
+    } while (!inputCorrecte)
     return inputUsuari
 }
+
 
 /**
  * This method can be used to round a Double "x" decimals and returns Float
@@ -361,28 +379,31 @@ fun Double.round(decimals:Int): Float {
  * @param pMax Max accepted value
  * @return outputValue Output value (boolean)
  */
-fun readStringSiNo(pMessageIn:String
-):Boolean{
-
-    var inputCorrecte:Boolean=true
-    var inputUsuari=""
-    var outputValue:Boolean=false
+fun readStringSiNo(pMessageIn: String): Boolean {
+    var inputCorrecte: Boolean = true
+    var inputUsuari: String = ""
+    var outputValue: Boolean = false
     do {
         println(pMessageIn)
-        if (scan.hasNextLine()){
-            inputCorrecte=true
-            inputUsuari=scan.nextLine().lowercase()
-            if (inputUsuari!="si"&&inputUsuari!="no"){
+        if (scan.hasNextLine()) {
+            inputCorrecte = true
+            inputUsuari = scan.nextLine().lowercase()
+            if (inputUsuari == "si") {
+                outputValue = true
+            } else if (inputUsuari == "no") {
+                outputValue = false
+            } else if (inputUsuari == "4321") {
+                messageExitProgram()
+                System.exit(0) // Finaliza la ejecución del programa
+            } else {
                 messageErrorDT()
-                inputCorrecte=false
+                inputCorrecte = false
             }
-        }else{
+        } else {
             scan.nextLine()
             messageErrorRange()
-            inputCorrecte=false
+            inputCorrecte = false
         }
-    }while(!inputCorrecte)
-    if (inputUsuari=="si") outputValue=true
-    else outputValue=false
+    } while (!inputCorrecte)
     return outputValue
 }

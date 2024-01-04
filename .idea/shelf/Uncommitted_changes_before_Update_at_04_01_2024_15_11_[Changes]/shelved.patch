@@ -1,0 +1,700 @@
+Index: src/main/kotlin/Main.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>fun main() {\r\n    ///TODO: hacer que el programa sea un bucle infinito y (opcional) que se pare si un operario introduce: 4321\r\n    var secretCode=false\r\n    do {\r\n        startOfProgramMessage()\r\n        var stillShop:Boolean\r\n        var ticketsAdded=0\r\n        val ticketNames=mutableListOf<String>()\r\n        val ticketZones=mutableListOf<Int>()\r\n        val ticketPrices=mutableListOf<Float>()\r\n        do {\r\n            val userOption = mainMenuOpcions()//funcion que muestra el menú principal y devuelve el userOption\r\n            val userZone = zoneMenu()\r\n            val priceTicket = calculatePricePerTicket(userOption, userZone)\r\n            ticketsAdded++//counts tickets so that the limit for purchase is 3\r\n            printAddedTicket(priceTicket)\r\n            addUserOptionToReceipt(userOption,userZone,priceTicket, ticketNames, ticketZones, ticketPrices)\r\n            stillShop=stillShooping()\r\n        }while (stillShop&&ticketsAdded<3)\r\n        payment(ticketPrices)\r\n        printTicketLists(ticketNames, ticketZones, ticketPrices)\r\n        endOfProgramMessage()\r\n    }while (!secretCode)\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/Main.kt b/src/main/kotlin/Main.kt
+--- a/src/main/kotlin/Main.kt	(revision 5aa88cb496aef67c4ed6f6139267054fc375b29e)
++++ b/src/main/kotlin/Main.kt	(date 1704377303331)
+@@ -1,25 +1,25 @@
+ fun main() {
+-    ///TODO: hacer que el programa sea un bucle infinito y (opcional) que se pare si un operario introduce: 4321
++    ///TODO: program is infinite until secret code (4321) is typed
+     var secretCode=false
+     do {
+         startOfProgramMessage()
+-        var stillShop:Boolean
+-        var ticketsAdded=0
+-        val ticketNames=mutableListOf<String>()
+-        val ticketZones=mutableListOf<Int>()
+-        val ticketPrices=mutableListOf<Float>()
++        var stillShop:Boolean=false
++        var ticketsAdded=0//counts num of tickets being added
++        val ticketNames=mutableListOf<String>()//saves added ticket names
++        val ticketZones=mutableListOf<Int>()//saves added ticket zones
++        val ticketPrices=mutableListOf<Float>()//saves added ticket prices
+         do {
+-            val userOption = mainMenuOpcions()//funcion que muestra el menú principal y devuelve el userOption
+-            val userZone = zoneMenu()
++            val userOption = optionMenu()//function that prints menu of ticket options and returns value for ticket chosen by user
++            val userZone
++            = zoneMenu()//function that prints menu of zone options and returns zone chosen by user
+             val priceTicket = calculatePricePerTicket(userOption, userZone)
+-            ticketsAdded++//counts tickets so that the limit for purchase is 3
++            ticketsAdded++//adds ticket
+             printAddedTicket(priceTicket)
+-            addUserOptionToReceipt(userOption,userZone,priceTicket, ticketNames, ticketZones, ticketPrices)
+-            stillShop=stillShooping()
+-        }while (stillShop&&ticketsAdded<3)
+-        payment(ticketPrices)
+-        printTicketLists(ticketNames, ticketZones, ticketPrices)
++            addUserOptionToReceipt(userOption,userZone,priceTicket, ticketNames, ticketZones, ticketPrices)//adds values to their respective lists
++            if (ticketsAdded!=3) stillShop=stillShooping()//if user hasn't reached limit of tickets, asks user if they want to continue shopping
++        }while (stillShop&&ticketsAdded<3)//if user wants to continue shopping and tickets is less than 3, it will iterate
++        var printTicket=payment(ticketPrices)//if user confirms purchase in payment(), then final receipt is printed
++        if (printTicket) printTicketLists(ticketNames, ticketZones, ticketPrices)
+         endOfProgramMessage()
+     }while (!secretCode)
+-
+ }
+Index: src/main/kotlin/functionsTMB.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import kotlin.math.absoluteValue\r\n\r\n/**\r\n *function that asks user for their option, prints options, validates data and returns the option\r\n * @author Thalia2603\r\n * @since 04/01/2024\r\n * @return userOption value of option\r\n */\r\nfun mainMenuOpcions():Int{\r\n    var userOption=readIntMenu( \"Quin bitllet desitja adquirir?\" +\r\n            \"\\n1 - Bitllet senzill\" +\r\n            \"\\n2 - TCasual\" +\r\n            \"\\n3 - TUsual\" +\r\n            \"\\n4 - TFamiliar\" +\r\n            \"\\n5 - TJove\",\r\n        pMin = 1, pMax = 5)\r\n    return userOption\r\n}\r\n/**\r\n *This method asks user zone, prints zone, validates input and returns zone\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @return userZoneInput value of the zone user chooses\r\n */\r\nfun zoneMenu():Int{\r\n    val userZoneInput=readIntMenu(\"A quina zona vol viatjar?\\n1\\n2\\n3\",1, 3)\r\n    return userZoneInput\r\n}\r\n/**\r\n *This method gets the base price of ticket, adds the zone price increment to the base price , and returns the final sum of ticket\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pUserOption value of ticket option\r\n * @param pZone value of the zone\r\n * @return priceFinal final price of ticket (with decimals)\r\n */\r\nfun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{\r\n    val basePrice=getBasePriceTicket(pUserOption)\r\n    val priceFinal=addZonePrice(basePrice, pZone)\r\n    return priceFinal\r\n}\r\n/**\r\n *This method gets the base price of the ticket chosen by user from an array that contains all prices\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pUserOption value of ticket option\r\n * @return basePriceTicket base price of ticket\r\n */\r\nfun getBasePriceTicket(pUserOption:Int):Float{\r\n    var stilShoppingBoolean=false\r\n    val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)\r\n    val basePriceTicket=(pricesPerOption[pUserOption-1])//this makes pUserOption match teh index of ticket in pricesPerOption\r\n    return basePriceTicket\r\n}\r\n/**\r\n*This method asks the user if they want to continue shopping (si/no) and returns boolean\r\n* @author Thalia2603, annacano0\r\n* @since 04/01/2024\r\n* @return stillShopBoolean true/false\r\n*/\r\nfun stillShooping():Boolean{\r\n    var stillShopBoolean=readStringSiNo(\"Vols seguir comprant? (si/no)\")\r\n    return stillShopBoolean\r\n}\r\n/**\r\n *This adds zone supplement to the base price of ticket and returns final price\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pBasePrice base price of ticket\r\n * @param pZone zone chosen by user\r\n * @return finalPriceTicket final sum of price for ticket\r\n */\r\nfun addZonePrice(pBasePrice:Float, pZone:Int):Float{\r\n    \r\n    var finalPriceTicket=pBasePrice//initial price doesn't change if zone==1\r\n    if (pZone==3){\r\n        finalPriceTicket=(finalPriceTicket*1.8443).round(2)//if zone is 3, the price is multiplied by 1.8443 to get total\r\n    }\r\n    else if (pZone==2){\r\n        finalPriceTicket=(finalPriceTicket*1.3125).round(2)//if zone is 2, the price is multiplied by 1.3125 to get total\r\n    }\r\n    return (finalPriceTicket)\r\n}\r\n/**\r\n *This method adds the ticket options chosen by user to three mutable lists, organized by ticket names, ticket zones, ticket prices.\r\n * This will make the data more manageable\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pUserOption value of ticket chosen (later transformed to name)\r\n * @param pUserZone value of ticket zone\r\n * @param pUserPrice value of ticket price\r\n * @param pNames MutableList with all ticket names\r\n * @param pZones MutableList with all ticket zones\r\n * @param pPrices MutableList with all ticket prices\r\n */\r\nfun addUserOptionToReceipt(pUserOption:Int,\r\n                           pUserZone:Int,\r\n                           pUserPrice:Float,\r\n                           pNames:MutableList<String>,\r\n                           pZones:MutableList<Int>,\r\n                           pPrices:MutableList<Float>){\r\n    val ticketNamesList=arrayOf(\"Bitllet Senzill\", \"TCasual\", \"TUsual\", \"TFamiliar\",\"TJove\")\r\n    val ticketName=ticketNamesList[pUserOption-1]\r\n    //we add the user ticket to the mutable lists\r\n    pNames.add(ticketName)\r\n    pZones.add(pUserZone)\r\n    pPrices.add(pUserPrice)\r\n}\r\n/**\r\n *This method gets all the options added by user to the three ticket lists and prints them with the format of a receipt (message)\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pNames MutableList with all ticket names\r\n * @param pZones MutableList with all ticket zones\r\n * @param pPrices MutableList with all ticket prices\r\n */\r\nfun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){\r\n    var printTicket=readStringSiNo(\"Desitja tiquet? (si/no)\")\r\n    if (printTicket){\r\n        println(\"___________TIQUET__________\")\r\n        for (i in 0..pNames.size-1){\r\n            println(pNames[i]+\" Zona \"+pZones[i]+ \" - Preu: \"+ pPrices[i]+\"€\")//printa todos los tiquets añadidos a las listas mutables\r\n        }\r\n        println(\"___________________________\")\r\n    }\r\n\r\n}\r\n/**\r\n *This method prints message with the price of the added ticket\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pPrice price of added (current) ticket\r\n */\r\nfun printAddedTicket(pPrice:Float){\r\n    println(\"El preu del bitllet es \"+pPrice+\"€\")\r\n}\r\n\r\n/**\r\n *This function manages the payment of the tickets, first counting the total,\r\n *then asking user for valid input of money, and doing so until payment is finished and \"returning\" the change.\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @param pPrices list of all the ticket prices\r\n */\r\nfun payment(pPrices:MutableList<Float>){\r\n    var totalPayment=0.00f\r\n    for (i in 0..pPrices.size-1){\r\n        totalPayment+=pPrices[i]\r\n    }\r\n    println(\"Ha comprat \"+pPrices.size+\" bitllets, ha de pagar \"+totalPayment+\"€\")\r\n    println(\"Introdueixi bitllets o monedes valids d'EURO\")\r\n    do {\r\n        var userMoney=checkMoney()\r\n        totalPayment-=userMoney//money inserted is substracted from totalPayment\r\n        if (totalPayment>0){\r\n            ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir\r\n            println(\"Ha introduit \"+userMoney+\"€ li resta per pagar \"+(totalPayment.toDouble().round(2))+\"€\")\r\n        }\r\n\r\n    }while (totalPayment>0)\r\n    ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir\r\n    if (totalPayment<0) println(\"Reculli el seu bitllet i el seu canvi: \"+(totalPayment.toDouble().round(2).absoluteValue)+\"€\")\r\n}\r\n/**\r\n *This method validates the input (via readFloat) of money from user. if input is not a valid curency it returns 0.\r\n * @author Thalia2603, annacano0\r\n * @since 04/01/2024\r\n * @return money value of valid money\r\n */\r\nfun checkMoney():Float{\r\n    var money=0.0f\r\n    money=readFloat()\r\n    if (money!=50f&&money!=20f&&money!=10f&&money!=5f&&money!=2f &&money!=1f&&money!=0.5f&&money!=0.2f&&money!=0.1f&&money!=0.05f&&money!=0.02f&&money!=0.01f){\r\n        money=0.00f\r\n    }\r\n    return money\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/functionsTMB.kt b/src/main/kotlin/functionsTMB.kt
+--- a/src/main/kotlin/functionsTMB.kt	(revision 5aa88cb496aef67c4ed6f6139267054fc375b29e)
++++ b/src/main/kotlin/functionsTMB.kt	(date 1704375670697)
+@@ -1,98 +1,55 @@
+-import kotlin.math.absoluteValue
+-
+-/**
+- *function that asks user for their option, prints options, validates data and returns the option
+- * @author Thalia2603
+- * @since 04/01/2024
+- * @return userOption value of option
+- */
++fun showMenu(){
++    println("----------------------------")
++    println("Quin bitllet desitza adquirir?")
++    println("1 - Bitllet senzill")
++    println("2 - TCasual")
++    println("3 - TUsual")
++    println("4 - TFamiliar")
++    println("5 - TJove")
++}
++/*function that reads USEROPTION and according to the value redirect to another function*/
+ fun mainMenuOpcions():Int{
+-    var userOption=readIntMenu( "Quin bitllet desitja adquirir?" +
+-            "\n1 - Bitllet senzill" +
+-            "\n2 - TCasual" +
+-            "\n3 - TUsual" +
+-            "\n4 - TFamiliar" +
+-            "\n5 - TJove",
+-        pMin = 1, pMax = 5)
++    var userOption=0
++    do{
++        showMenu()
++        userOption=readIntMenu( pMin = 1, pMax = 5, "El valor inserit no es valid", "El valor inserit no es una opcio")
++    }while (userOption!in 1..5)
+     return userOption
+ }
+-/**
+- *This method asks user zone, prints zone, validates input and returns zone
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @return userZoneInput value of the zone user chooses
+- */
+ fun zoneMenu():Int{
+-    val userZoneInput=readIntMenu("A quina zona vol viatjar?\n1\n2\n3",1, 3)
++    println("A quina zona vol viatjar?\n1\n2\n3")
++    val userZoneInput=readIntMenu(1, 3,"El valor inserit no es valid",
++        "El valor no es una opció de Zona",)
+     return userZoneInput
+ }
+-/**
+- *This method gets the base price of ticket, adds the zone price increment to the base price , and returns the final sum of ticket
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pUserOption value of ticket option
+- * @param pZone value of the zone
+- * @return priceFinal final price of ticket (with decimals)
+- */
++
+ fun calculatePricePerTicket(pUserOption:Int ,pZone:Int):Float{
+-    val basePrice=getBasePriceTicket(pUserOption)
++    val basePrice=calculateBasePriceTicket(pUserOption)
+     val priceFinal=addZonePrice(basePrice, pZone)
+     return priceFinal
+ }
+-/**
+- *This method gets the base price of the ticket chosen by user from an array that contains all prices
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pUserOption value of ticket option
+- * @return basePriceTicket base price of ticket
+- */
+-fun getBasePriceTicket(pUserOption:Int):Float{
++fun calculateBasePriceTicket(pUserOption:Int):Float{
+     var stilShoppingBoolean=false
+     val pricesPerOption= floatArrayOf(2.40f,11.35f,40.00f,10.00f,80.00f)
+-    val basePriceTicket=(pricesPerOption[pUserOption-1])//this makes pUserOption match teh index of ticket in pricesPerOption
++    val basePriceTicket=(pricesPerOption[pUserOption-1])
+     return basePriceTicket
+ }
+-/**
+-*This method asks the user if they want to continue shopping (si/no) and returns boolean
+-* @author Thalia2603, annacano0
+-* @since 04/01/2024
+-* @return stillShopBoolean true/false
+-*/
+ fun stillShooping():Boolean{
+-    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)")
++    var stillShopBoolean=readStringSiNo("Vols seguir comprant? (si/no)","Valor introduit no vàlid", "Valor no es una opció")
+     return stillShopBoolean
+ }
+-/**
+- *This adds zone supplement to the base price of ticket and returns final price
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pBasePrice base price of ticket
+- * @param pZone zone chosen by user
+- * @return finalPriceTicket final sum of price for ticket
+- */
+ fun addZonePrice(pBasePrice:Float, pZone:Int):Float{
+     
+-    var finalPriceTicket=pBasePrice//initial price doesn't change if zone==1
++    var finalPriceTicket=pBasePrice
+     if (pZone==3){
+-        finalPriceTicket=(finalPriceTicket*1.8443).round(2)//if zone is 3, the price is multiplied by 1.8443 to get total
++        finalPriceTicket=(finalPriceTicket*1.8443).round(2)
+     }
+     else if (pZone==2){
+-        finalPriceTicket=(finalPriceTicket*1.3125).round(2)//if zone is 2, the price is multiplied by 1.3125 to get total
++        finalPriceTicket=(finalPriceTicket*1.3125).round(2)
+     }
+     return (finalPriceTicket)
+ }
+-/**
+- *This method adds the ticket options chosen by user to three mutable lists, organized by ticket names, ticket zones, ticket prices.
+- * This will make the data more manageable
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pUserOption value of ticket chosen (later transformed to name)
+- * @param pUserZone value of ticket zone
+- * @param pUserPrice value of ticket price
+- * @param pNames MutableList with all ticket names
+- * @param pZones MutableList with all ticket zones
+- * @param pPrices MutableList with all ticket prices
+- */
++
+ fun addUserOptionToReceipt(pUserOption:Int,
+                            pUserZone:Int,
+                            pUserPrice:Float,
+@@ -101,77 +58,89 @@
+                            pPrices:MutableList<Float>){
+     val ticketNamesList=arrayOf("Bitllet Senzill", "TCasual", "TUsual", "TFamiliar","TJove")
+     val ticketName=ticketNamesList[pUserOption-1]
+-    //we add the user ticket to the mutable lists
++
+     pNames.add(ticketName)
+     pZones.add(pUserZone)
+     pPrices.add(pUserPrice)
+ }
+-/**
+- *This method gets all the options added by user to the three ticket lists and prints them with the format of a receipt (message)
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pNames MutableList with all ticket names
+- * @param pZones MutableList with all ticket zones
+- * @param pPrices MutableList with all ticket prices
+- */
++
+ fun printTicketLists(pNames:MutableList<String>, pZones:MutableList<Int>, pPrices:MutableList<Float>){
+-    var printTicket=readStringSiNo("Desitja tiquet? (si/no)")
+-    if (printTicket){
+-        println("___________TIQUET__________")
+-        for (i in 0..pNames.size-1){
+-            println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")//printa todos los tiquets añadidos a las listas mutables
+-        }
+-        println("___________________________")
+-    }
++    println("___________TIQUET__________")
++    for (i in 0..pNames.size-1){
++        println(pNames[i]+" Zona "+pZones[i]+ " - Preu: "+ pPrices[i]+"€")
++    }
++    println("___________________________")
++}
+ 
++fun endOfProgramMessage(){
++    println("    Reculli el seu tiquet.  ")
++    println("        ¡Bon Viatge!        ")
+ }
+-/**
+- *This method prints message with the price of the added ticket
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pPrice price of added (current) ticket
+- */
++
+ fun printAddedTicket(pPrice:Float){
+     println("El preu del bitllet es "+pPrice+"€")
+ }
+ 
+-/**
+- *This function manages the payment of the tickets, first counting the total,
+- *then asking user for valid input of money, and doing so until payment is finished and "returning" the change.
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @param pPrices list of all the ticket prices
+- */
+ fun payment(pPrices:MutableList<Float>){
+-    var totalPayment=0.00f
++    ///TODO:esat funcion gestionara el pago del billete. Seguramente se deberian crear otras funciones tipo
++    ///change() o algo por el estilo
++    var totalPayment=0.0f
+     for (i in 0..pPrices.size-1){
+         totalPayment+=pPrices[i]
+     }
+     println("Ha comprat "+pPrices.size+" bitllets, ha de pagar "+totalPayment+"€")
+-    println("Introdueixi bitllets o monedes valids d'EURO")
++}
++fun showMoneyMenu(){
++    println("----------------------------")
++    println("Sel.leccioni amb què vol pagar")
++    println("1 - 50€")
++    println("2 - 20€")
++    println("3 - 10€")
++    println("4 - 5€")
++    println("5 - 2€")
++    println("6 - 1€")
++    println("7 - 0.50€")
++    println("8 - 0.20€")
++    println("9 - 0.10€")
++    println("10 - 0.05€")
++}
++
++fun moneyMenuOptions(listOfMoney: MutableList<Int>):MutableList<Int>{
++    showMoneyMenu()
++    var option: Int
+     do {
+-        var userMoney=checkMoney()
+-        totalPayment-=userMoney//money inserted is substracted from totalPayment
+-        if (totalPayment>0){
+-            ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
+-            println("Ha introduit "+userMoney+"€ li resta per pagar "+(totalPayment.toDouble().round(2))+"€")
++        println("Amb què pagarà (introdueixi 0 per sortir): ")
++        option =readIntMenu( pMin = 1, pMax = 5, pMessageIn = "El valor inserit no es valid", "El valor inserit no es una opcio")
++
++        if (option != 0) {
++            listOfMoney.add(option)
+         }
++    } while (option != 0)
++    return listOfMoney
++}
+ 
+-    }while (totalPayment>0)
+-    ///TODO: hacer que devuelva dos decimales siempre (he intentado con .round(2) pero no acaba de ir
+-    if (totalPayment<0) println("Reculli el seu bitllet i el seu canvi: "+(totalPayment.toDouble().round(2).absoluteValue)+"€")
+-}
+-/**
+- *This method validates the input (via readFloat) of money from user. if input is not a valid curency it returns 0.
+- * @author Thalia2603, annacano0
+- * @since 04/01/2024
+- * @return money value of valid money
+- */
+-fun checkMoney():Float{
+-    var money=0.0f
+-    money=readFloat()
+-    if (money!=50f&&money!=20f&&money!=10f&&money!=5f&&money!=2f &&money!=1f&&money!=0.5f&&money!=0.2f&&money!=0.1f&&money!=0.05f&&money!=0.02f&&money!=0.01f){
+-        money=0.00f
++fun priceTransform(listOfMoney:MutableList<Int>):Double{
++    val price=0
++    var sumPrice=0.0
++    for (i in listOfMoney){
++        when (listOfMoney[i]){
++            1 -> price==50
++            2 -> price==20
++            3 -> price==10
++            4 -> price==5
++            5 -> price==2
++            6 -> price==1
++            7 -> price.toDouble() ==0.50
++            8 -> price.toDouble() ==0.20
++            9 -> price.toDouble() ==0.10
++            10 -> price.toDouble() ==0.05
++        }
++        sumPrice+=price
+     }
+-    return money
++    return sumPrice.toDouble()
+ }
++
++fun change(sumPrice:Double,totalPayment:Float){
++    val priceReturn=totalPayment-sumPrice
++    println("El seu canvi és de $priceReturn")
++}
+\ No newline at end of file
+Index: src/main/kotlin/Messages.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>fun AsciiArt(){\r\n    print(RED_BOLD)\r\n    println(\r\n            \"                             \\n\" +\r\n            \"         ███████████         \\n\" +\r\n            \"       ███████████████       \\n\" +\r\n            \"     ███████████████████     \\n\" +\r\n            \"    █████████████████████    \\n\" +\r\n            \"   ███████████████████████   \\n\" +\r\n            \"  ███      █ ▀██▀ █   █████  \\n\" +\r\n            \"  █████  ███      █ ▀ █████  \\n\" +\r\n            \"  █████  ███  ██  █ ▄  ████  \\n\" +\r\n            \"  █████  ███  ██  █    ████  \\n\" +\r\n            \"   ███████████████████████   \\n\" +\r\n            \"    █████████████████████    \\n\" +\r\n            \"     ███████████████████     \\n\" +\r\n            \"       ███████████████       \\n\" +\r\n            \"         ███████████         \\n\" +\r\n            \"                             \\n\" +\r\n            \"                             \")\r\n            print(RESET)\r\n}\r\n\r\nfun startOfProgramMessage(){\r\n    AsciiArt()\r\n    println(BLUE_BOLD_BRIGHT+\"----------------------------\")\r\n    println(\"       ¡Benvolgut/da        \")\r\n    println(\"----------------------------\"+RESET)\r\n}\r\nfun endOfProgramMessage(){\r\n    println(BLUE_BOLD_BRIGHT+\"        ¡Bon Viatge!        \"+RESET)\r\n}\r\n\r\nfun messageErrorDT(){\r\n    //funcion que es llamada cuando el tipo de dato es incorrecto\r\n    println(RED_BOLD+\"El tipus de dada es incorrecte, torni a intentar.\"+RESET)\r\n}\r\n\r\nfun messageErrorRange(){\r\n    //funcion que es llamada cuando el tipo de dato esta fuera del rango establecido\r\n    println(YELLOW_BOLD+\"El tipus de dada no està en les opcions, torni a intentar.\"+RESET)\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/Messages.kt b/src/main/kotlin/Messages.kt
+--- a/src/main/kotlin/Messages.kt	(revision 5aa88cb496aef67c4ed6f6139267054fc375b29e)
++++ b/src/main/kotlin/Messages.kt	(date 1704375539230)
+@@ -1,41 +1,54 @@
++/**
++ *This function prints ascii art in blue bold color
++ * @author Thalia2603, annacano0
++ * @since 04/01/2024
++ */
+ fun AsciiArt(){
+-    print(RED_BOLD)
+-    println(
+-            "                             \n" +
+-            "         ███████████         \n" +
+-            "       ███████████████       \n" +
+-            "     ███████████████████     \n" +
+-            "    █████████████████████    \n" +
+-            "   ███████████████████████   \n" +
+-            "  ███      █ ▀██▀ █   █████  \n" +
+-            "  █████  ███      █ ▀ █████  \n" +
+-            "  █████  ███  ██  █ ▄  ████  \n" +
+-            "  █████  ███  ██  █    ████  \n" +
+-            "   ███████████████████████   \n" +
+-            "    █████████████████████    \n" +
+-            "     ███████████████████     \n" +
+-            "       ███████████████       \n" +
+-            "         ███████████         \n" +
+-            "                             \n" +
+-            "                             ")
++    print(BLUE_BOLD_BRIGHT)
++    println("        e@@@@@@@@@@@@@@@\n" +
++            "       @@@\"\"\"\"\"\"\"\"\"\"\n" +
++            "      @\" ___ ___________\n" +
++            "     II__[w] | [i] [z] |\n" +
++            "    {======|_|~~~~~~~~~|\n" +
++            "   /oO--000'\"`-OO---OO-'")
+             print(RESET)
+ }
+ 
++/**
++ *This function prints welcome message at the start of every iteration of program with blue bold color
++ * @author Thalia2603, annacano0
++ * @since 04/01/2024
++ */
+ fun startOfProgramMessage(){
+     AsciiArt()
+-    println(BLUE_BOLD_BRIGHT+"----------------------------")
+-    println("       ¡Benvolgut/da        ")
++    println(BLUE_BRIGHT+"----------------------------")
++    println("        Benvolgut/da        ")
+     println("----------------------------"+RESET)
+ }
++
++/**
++ *This function prints goodbye message at the end of every iteration of program with blue bold color
++ * @author Thalia2603, annacano0
++ * @since 04/01/2024
++ */
+ fun endOfProgramMessage(){
+-    println(BLUE_BOLD_BRIGHT+"        ¡Bon Viatge!        "+RESET)
++    println(BLUE_BOLD_BRIGHT+"         Bon Viatge!        "+RESET)
+ }
+ 
++/**
++ *This function prints Data Type error message (used in functions that check input) in red
++ * @author Thalia2603, annacano0
++ * @since 04/01/2024
++ */
+ fun messageErrorDT(){
+     //funcion que es llamada cuando el tipo de dato es incorrecto
+-    println(RED_BOLD+"El tipus de dada es incorrecte, torni a intentar."+RESET)
++    println(RED_BOLD+"El tipus de dada és incorrecte, torni a intentar."+RESET)
+ }
+-
++/**
++ *This function prints range error message (used in functions that check input) in yellow
++ * @author Thalia2603, annacano0
++ * @since 04/01/2024
++ */
+ fun messageErrorRange(){
+     //funcion que es llamada cuando el tipo de dato esta fuera del rango establecido
+     println(YELLOW_BOLD+"El tipus de dada no està en les opcions, torni a intentar."+RESET)
+Index: src/main/kotlin/utilities.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.*\r\nimport kotlin.math.round\r\nval scan: Scanner = Scanner(System.`in`)\r\n\r\n/**\r\n * This method can be used to read a String word value from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readWord(pMessageIn: String\r\n             , pMessageErrorDT: String\r\n): String{\r\n\r\n    var outputValue: String = \"\"\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNext()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.next().lowercase()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a String sentence from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readSentence(pMessageIn: String\r\n                 , pMessageErrorDT: String\r\n): String{\r\n\r\n    var outputValue: String = \"\"\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNext()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextLine()\r\n        }\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a Char value from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readChar(pMessageIn: String\r\n             , pMessageErrorDT: String\r\n): Char{\r\n\r\n    var outputValue: Char = ' '\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNext()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            // Get the first character of the input word from scan.next()\r\n            outputValue = scan.next()[0]\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a Char value from the user through keyboard using java.util.Scanner. It can force the output Char to be lower or uppercase\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @param pCase Input parameter to force lowercase (0) or uppercase (1)\r\n * @return outputValue Output value\r\n */\r\nfun readChar(pMessageIn: String\r\n             , pMessageErrorDT: String\r\n             , pCase: Int\r\n): Char{\r\n\r\n    var outputValue: Char = ' '\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNext()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = if (pCase == 0) scan.next()[0].lowercaseChar()\r\n            else scan.next()[0].uppercaseChar()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a Boolean value from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readBoolean(pMessageIn: String\r\n                , pMessageErrorDT: String\r\n): Boolean{\r\n\r\n    var outputValue: Boolean = false\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNextBoolean()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextBoolean()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read an Int value from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readInt(pMessageIn: String\r\n            , pMessageErrorDT: String\r\n): Int{\r\n\r\n    var outputValue: Int = 0\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNextInt()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextInt()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read an Int value from the user through keyboard using java.util.Scanner in within a range\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @param pMessageErrorDV Data value error message to be shown to the user\r\n * @param pMin Min accepted value\r\n * @param pMax Max accepted value\r\n * @return outputValue Output value\r\n */\r\nfun readIntRange(pMessageIn: String\r\n                 , pMin: Int\r\n                 , pMax: Int\r\n): Int{\r\n\r\n    var outputValue: Int = 0\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNextInt()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextInt()\r\n\r\n            if (outputValue < pMin || outputValue > pMax){\r\n                messageErrorRange()\r\n                correctDataType = false\r\n            }\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a Float value from the user through keyboard using java.util.Scanner\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @return outputValue Output value\r\n */\r\nfun readFloat(pMessageIn: String\r\n): Float{\r\n\r\n    var outputValue: Float = 0.0f\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNextFloat()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextFloat()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\n/**\r\n * This method can be used to read a Float value from the user through keyboard using java.util.Scanner in within a range\r\n * @author raimon.izard\r\n * @since 15/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @param pMessageErrorDV Data value error message to be shown to the user\r\n * @param pMin Min accepted value\r\n * @param pMax Max accepted value\r\n * @return outputValue Output value\r\n */\r\nfun readFloat(pMessageIn: String\r\n              , pMin: Float\r\n              , pMax: Float\r\n): Float{\r\n\r\n    var outputValue: Float = 0.0f\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        println(pMessageIn)\r\n        correctDataType = scan.hasNextFloat()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextFloat()\r\n\r\n            if (outputValue < pMin || outputValue > pMax){\r\n                messageErrorRange()\r\n                correctDataType = false\r\n            }\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\nfun readFloat(): Float{\r\n\r\n    var outputValue: Float = 0.0f\r\n    var correctDataType: Boolean = false\r\n\r\n    do{\r\n        correctDataType = scan.hasNextFloat()\r\n\r\n        if (!correctDataType){\r\n            messageErrorDT()\r\n        }else{\r\n            outputValue = scan.nextFloat()\r\n        }\r\n        scan.nextLine()\r\n    }while(!correctDataType)\r\n\r\n    return outputValue\r\n}\r\n\r\nfun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{\r\n    println(pMessageIn)\r\n    val scanner= Scanner(System.`in`)\r\n    var inputCorrecte=true\r\n    var inputUsuari=0\r\n    do {\r\n        if (scanner.hasNextInt()){\r\n            inputCorrecte=true\r\n            inputUsuari=scanner.nextInt()\r\n            if (inputUsuari<pMin||inputUsuari>pMax) {\r\n                messageErrorRange()\r\n                inputCorrecte=false\r\n            }\r\n        }else{\r\n            messageErrorDT()\r\n            inputCorrecte=false\r\n        }\r\n        scanner.nextLine()\r\n    }while(!inputCorrecte)\r\n    return inputUsuari\r\n}\r\nfun Double.round(decimals:Int): Float {\r\n    var multiplier = 1.0\r\n    repeat(decimals) { multiplier *= 10 }\r\n    return (round(this * multiplier) / multiplier).toFloat()\r\n}\r\n/**\r\n * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner in within a range\r\n * and returns boolean\r\n * @author annacano0\r\n * @since 22/12/2023\r\n * @param pMessageIn Input message to be shown to the user\r\n * @param pMessageErrorDT Data type error message to be shown to the user\r\n * @param pMessageErrorDV Data value error message to be shown to the user\r\n * @param pMin Min accepted value\r\n * @param pMax Max accepted value\r\n * @return outputValue Output value (boolean)\r\n */\r\nfun readStringSiNo(pMessageIn:String\r\n):Boolean{\r\n\r\n    var inputCorrecte:Boolean=true\r\n    var inputUsuari=\"\"\r\n    var outputValue:Boolean=false\r\n    do {\r\n        println(pMessageIn)\r\n        if (scan.hasNextLine()){\r\n            inputCorrecte=true\r\n            inputUsuari=scan.nextLine().lowercase()\r\n            if (inputUsuari!=\"si\"&&inputUsuari!=\"no\"){\r\n                messageErrorDT()\r\n                inputCorrecte=false\r\n            }\r\n        }else{\r\n            scan.nextLine()\r\n            messageErrorRange()\r\n            inputCorrecte=false\r\n        }\r\n    }while(!inputCorrecte)\r\n    if (inputUsuari==\"si\") outputValue=true\r\n    else outputValue=false\r\n    return outputValue\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/kotlin/utilities.kt b/src/main/kotlin/utilities.kt
+--- a/src/main/kotlin/utilities.kt	(revision 5aa88cb496aef67c4ed6f6139267054fc375b29e)
++++ b/src/main/kotlin/utilities.kt	(date 1704375539232)
+@@ -130,11 +130,9 @@
+  * @author raimon.izard
+  * @since 15/12/2023
+  * @param pMessageIn Input message to be shown to the user
+- * @param pMessageErrorDT Data type error message to be shown to the user
+  * @return outputValue Output value
+  */
+ fun readBoolean(pMessageIn: String
+-                , pMessageErrorDT: String
+ ): Boolean{
+ 
+     var outputValue: Boolean = false
+@@ -160,11 +158,9 @@
+  * @author raimon.izard
+  * @since 15/12/2023
+  * @param pMessageIn Input message to be shown to the user
+- * @param pMessageErrorDT Data type error message to be shown to the user
+  * @return outputValue Output value
+  */
+ fun readInt(pMessageIn: String
+-            , pMessageErrorDT: String
+ ): Int{
+ 
+     var outputValue: Int = 0
+@@ -190,8 +186,6 @@
+  * @author raimon.izard
+  * @since 15/12/2023
+  * @param pMessageIn Input message to be shown to the user
+- * @param pMessageErrorDT Data type error message to be shown to the user
+- * @param pMessageErrorDV Data value error message to be shown to the user
+  * @param pMin Min accepted value
+  * @param pMax Max accepted value
+  * @return outputValue Output value
+@@ -257,8 +251,6 @@
+  * @author raimon.izard
+  * @since 15/12/2023
+  * @param pMessageIn Input message to be shown to the user
+- * @param pMessageErrorDT Data type error message to be shown to the user
+- * @param pMessageErrorDV Data value error message to be shown to the user
+  * @param pMin Min accepted value
+  * @param pMax Max accepted value
+  * @return outputValue Output value
+@@ -291,6 +283,12 @@
+     return outputValue
+ }
+ 
++/**
++ * This method can be used to read a Float value from the user through keyboard using java.util.Scanner
++ * @author Thalia2603 anna.cano0
++ * @since 04/01/2024
++ * @return outputValue Output value
++ */
+ fun readFloat(): Float{
+ 
+     var outputValue: Float = 0.0f
+@@ -310,6 +308,15 @@
+     return outputValue
+ }
+ 
++/**
++ * This method can be used to read a Int value from the user through keyboard using java.util.Scanner in within a range
++ * @author Thalia2603 anna.cano0
++ * @since 04/01/2024
++ * @param pMessageIn Input message to be shown to the user
++ * @param pMin Min accepted value
++ * @param pMax Max accepted value
++ * @return inputUsuari Output value
++ */
+ fun readIntMenu(pMessageIn: String,pMin:Int,pMax:Int):Int{
+     println(pMessageIn)
+     val scanner= Scanner(System.`in`)
+@@ -331,19 +338,25 @@
+     }while(!inputCorrecte)
+     return inputUsuari
+ }
++
++/**
++ * This method can be used to round a Double "x" decimals and returns Float
++ * @author anna.cano0
++ * @since 23/12/2023
++ * @return inputUsuari Output value
++ */
+ fun Double.round(decimals:Int): Float {
+     var multiplier = 1.0
+     repeat(decimals) { multiplier *= 10 }
+     return (round(this * multiplier) / multiplier).toFloat()
+ }
++
+ /**
+- * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner in within a range
++ * This method can be used to read a Si/No string value from the user through keyboard using java.util.Scanner
+  * and returns boolean
+  * @author annacano0
+  * @since 22/12/2023
+  * @param pMessageIn Input message to be shown to the user
+- * @param pMessageErrorDT Data type error message to be shown to the user
+- * @param pMessageErrorDV Data value error message to be shown to the user
+  * @param pMin Min accepted value
+  * @param pMax Max accepted value
+  * @return outputValue Output value (boolean)
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0\" name=\"Changes\" comment=\"removed parameters of incorrect data type and incorrect range from to functions\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    <list default=\"true\" id=\"1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0\" name=\"Changes\" comment=\"added function stilShooping on Main.kt\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/kotlin/Main.kt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/kotlin/Main.kt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsData\">\r\n    <projectState path=\"$PROJECT_DIR$\">\r\n      <ProjectState />\r\n    </projectState>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Kotlin File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitToolBoxStore\">\r\n    <option name=\"projectConfigVersion\" value=\"5\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2Zs7h2oHD9m3I9cfa1tUK12U1d3\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Gradle.Build TMB_Tickets.executor&quot;: &quot;Run&quot;,\r\n    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\r\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"MainKt\" type=\"JetRunConfigurationType\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"MainKt\" />\r\n      <module name=\"TMB_Tickets.main\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Kotlin.MainKt\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"jdk-19.0.2-corretto-19.0.2-249ae16d76d6-36550cda\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0\" name=\"Changes\" comment=\"\" />\r\n      <created>1703199051007</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1703199051007</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"First commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703199105981</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703199105981</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"added function stilShooping on Main.kt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703347382274</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703347382274</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"added function stilShooping on Main.kt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703424338674</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703424338674</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"added Messages.kt (reorganized text functions) and added ascii art\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704123800203</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704123800203</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"added AsciiArt()\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704123825122</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704123825122</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"moved text functions to Messages.kt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704123855135</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704123855135</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"added fun messageErrorDT and messageErrorRange to all utilities.kt functions\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704124894021</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704124894021</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"created fun messageErrorDT() and messageErrorRange()\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704124926093</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704124926093</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"removed parameters of incorrect data type and incorrect range from to functions\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1704124998481</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1704124998481</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"10\" />\r\n    <task id=\"LOCAL-00004\" summary=\"added function stilShooping on Main.kt\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1703959564145</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1703959564145</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"First commit\" />\r\n    <MESSAGE value=\"added function stilShooping on Main.kt\" />\r\n    <MESSAGE value=\"added Messages.kt (reorganized text functions) and added ascii art\" />\r\n    <MESSAGE value=\"added AsciiArt()\" />\r\n    <MESSAGE value=\"moved text functions to Messages.kt\" />\r\n    <MESSAGE value=\"added fun messageErrorDT and messageErrorRange to all utilities.kt functions\" />\r\n    <MESSAGE value=\"created fun messageErrorDT() and messageErrorRange()\" />\r\n    <MESSAGE value=\"removed parameters of incorrect data type and incorrect range from to functions\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"removed parameters of incorrect data type and incorrect range from to functions\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 5aa88cb496aef67c4ed6f6139267054fc375b29e)
++++ b/.idea/workspace.xml	(date 1704376554549)
+@@ -4,11 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="removed parameters of incorrect data type and incorrect range from to functions">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="added function stilShooping on Main.kt">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -29,10 +26,34 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="master" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+   <component name="GitToolBoxStore">
+     <option name="projectConfigVersion" value="5" />
++    <option name="recentBranches">
++      <RecentBranches>
++        <option name="branchesForRepo">
++          <list>
++            <RecentBranchesForRepo>
++              <option name="branches">
++                <list>
++                  <RecentBranch>
++                    <option name="branchName" value="master" />
++                    <option name="lastUsedInstant" value="1704376466" />
++                  </RecentBranch>
++                </list>
++              </option>
++              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
++            </RecentBranchesForRepo>
++          </list>
++        </option>
++      </RecentBranches>
++    </option>
+   </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 7
+@@ -66,6 +87,10 @@
+     <recent_temporary>
+       <list>
+         <item itemvalue="Kotlin.MainKt" />
++        <item itemvalue="Kotlin.MainKt" />
++        <item itemvalue="Kotlin.MainKt" />
++        <item itemvalue="Kotlin.MainKt" />
++        <item itemvalue="Kotlin.MainKt" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -109,55 +134,6 @@
+       <option name="project" value="LOCAL" />
+       <updated>1703424338674</updated>
+     </task>
+-    <task id="LOCAL-00004" summary="added Messages.kt (reorganized text functions) and added ascii art">
+-      <option name="closed" value="true" />
+-      <created>1704123800203</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704123800203</updated>
+-    </task>
+-    <task id="LOCAL-00005" summary="added AsciiArt()">
+-      <option name="closed" value="true" />
+-      <created>1704123825122</created>
+-      <option name="number" value="00005" />
+-      <option name="presentableId" value="LOCAL-00005" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704123825122</updated>
+-    </task>
+-    <task id="LOCAL-00006" summary="moved text functions to Messages.kt">
+-      <option name="closed" value="true" />
+-      <created>1704123855135</created>
+-      <option name="number" value="00006" />
+-      <option name="presentableId" value="LOCAL-00006" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704123855135</updated>
+-    </task>
+-    <task id="LOCAL-00007" summary="added fun messageErrorDT and messageErrorRange to all utilities.kt functions">
+-      <option name="closed" value="true" />
+-      <created>1704124894021</created>
+-      <option name="number" value="00007" />
+-      <option name="presentableId" value="LOCAL-00007" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704124894021</updated>
+-    </task>
+-    <task id="LOCAL-00008" summary="created fun messageErrorDT() and messageErrorRange()">
+-      <option name="closed" value="true" />
+-      <created>1704124926093</created>
+-      <option name="number" value="00008" />
+-      <option name="presentableId" value="LOCAL-00008" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704124926093</updated>
+-    </task>
+-    <task id="LOCAL-00009" summary="removed parameters of incorrect data type and incorrect range from to functions">
+-      <option name="closed" value="true" />
+-      <created>1704124998481</created>
+-      <option name="number" value="00009" />
+-      <option name="presentableId" value="LOCAL-00009" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1704124998481</updated>
+-    </task>
+-    <option name="localTasksCounter" value="10" />
+     <task id="LOCAL-00004" summary="added function stilShooping on Main.kt">
+       <option name="closed" value="true" />
+       <created>1703959564145</created>
+@@ -169,15 +145,37 @@
+     <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State>
++              <option name="CUSTOM_BOOLEAN_PROPERTIES">
++                <map>
++                  <entry key="Show.Git.Branches" value="true" />
++                </map>
++              </option>
++              <option name="FILTERS">
++                <map>
++                  <entry key="branch">
++                    <value>
++                      <list>
++                        <option value="origin/master" />
++                      </list>
++                    </value>
++                  </entry>
++                </map>
++              </option>
++            </State>
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="First commit" />
+     <MESSAGE value="added function stilShooping on Main.kt" />
+-    <MESSAGE value="added Messages.kt (reorganized text functions) and added ascii art" />
+-    <MESSAGE value="added AsciiArt()" />
+-    <MESSAGE value="moved text functions to Messages.kt" />
+-    <MESSAGE value="added fun messageErrorDT and messageErrorRange to all utilities.kt functions" />
+-    <MESSAGE value="created fun messageErrorDT() and messageErrorRange()" />
+-    <MESSAGE value="removed parameters of incorrect data type and incorrect range from to functions" />
+-    <option name="LAST_COMMIT_MESSAGE" value="removed parameters of incorrect data type and incorrect range from to functions" />
++    <option name="LAST_COMMIT_MESSAGE" value="added function stilShooping on Main.kt" />
+   </component>
+ </project>
+\ No newline at end of file

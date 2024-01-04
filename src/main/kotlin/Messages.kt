@@ -53,3 +53,8 @@ fun messageErrorRange(){
     //funcion que es llamada cuando el tipo de dato esta fuera del rango establecido
     println(YELLOW_BOLD+"El tipus de dada no està en les opcions, torni a intentar."+RESET)
 }
+
+fun messageExitProgram(){
+    println(RED_BOLD+"Has introduit el valor 4321"+RESET)
+    println(RED_BOLD+"FINALITZANT PROGRAMA"+RESET)
+}

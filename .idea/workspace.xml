@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="removed parameters of incorrect data type and incorrect range from to functions">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     <list default="true" id="1dfbc779-a6e9-4fe9-9ee8-b92f46a296c0" name="Changes" comment="added function stilShooping on Main.kt">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Messages.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Messages.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/functionsTMB.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/utilities.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/utilities.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,10 +30,59 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "state": "OPEN",
+      "assignee": "Thalia2603",
+      "author": "annacano0"
+    }
+  ],
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Thalia2603",
+    "author": "annacano0"
+  }
+}]]></component>
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1704376466" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="91aad8ed-4fe8-4271-803d-1c49612fc07d" />
+        <option name="url" value="https://github.com/Thalia2603/TMB_Tickets.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -65,6 +115,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Kotlin.MainKt" />
       </list>
     </recent_temporary>
@@ -109,55 +163,6 @@
       <option name="project" value="LOCAL" />
       <updated>1703424338674</updated>
     </task>
-    <task id="LOCAL-00004" summary="added Messages.kt (reorganized text functions) and added ascii art">
-      <option name="closed" value="true" />
-      <created>1704123800203</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1704123800203</updated>
-    </task>
-    <task id="LOCAL-00005" summary="added AsciiArt()">
-      <option name="closed" value="true" />
-      <created>1704123825122</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1704123825122</updated>
-    </task>
-    <task id="LOCAL-00006" summary="moved text functions to Messages.kt">
-      <option name="closed" value="true" />
-      <created>1704123855135</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1704123855135</updated>
-    </task>
-    <task id="LOCAL-00007" summary="added fun messageErrorDT and messageErrorRange to all utilities.kt functions">
-      <option name="closed" value="true" />
-      <created>1704124894021</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1704124894021</updated>
-    </task>
-    <task id="LOCAL-00008" summary="created fun messageErrorDT() and messageErrorRange()">
-      <option name="closed" value="true" />
-      <created>1704124926093</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1704124926093</updated>
-    </task>
-    <task id="LOCAL-00009" summary="removed parameters of incorrect data type and incorrect range from to functions">
-      <option name="closed" value="true" />
-      <created>1704124998481</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1704124998481</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
     <task id="LOCAL-00004" summary="added function stilShooping on Main.kt">
       <option name="closed" value="true" />
       <created>1703959564145</created>
@@ -169,15 +174,37 @@
     <option name="localTasksCounter" value="5" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="added function stilShooping on Main.kt" />
-    <MESSAGE value="added Messages.kt (reorganized text functions) and added ascii art" />
-    <MESSAGE value="added AsciiArt()" />
-    <MESSAGE value="moved text functions to Messages.kt" />
-    <MESSAGE value="added fun messageErrorDT and messageErrorRange to all utilities.kt functions" />
-    <MESSAGE value="created fun messageErrorDT() and messageErrorRange()" />
-    <MESSAGE value="removed parameters of incorrect data type and incorrect range from to functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed parameters of incorrect data type and incorrect range from to functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="added function stilShooping on Main.kt" />
   </component>
 </project>
